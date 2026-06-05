@@ -53,12 +53,20 @@ Do not commit real values. The deploy workflow sources this file before building
    ```
 7. Create a GitHub Release tag from `release`.
 
-## Current Baseline
+## Release Baselines
 
-The first release baseline is:
+The first branch baseline is:
 
 ```text
 v0.1.0
 ```
 
-It marks the initial release branch baseline before the dedicated production deployment diverges from main.
+It marks the initial release branch creation point.
+
+The current Tencent deployment baseline is:
+
+```text
+v0.1.1
+```
+
+It includes the protected release branch, self-hosted Tencent runner deployment, and production/preview split.

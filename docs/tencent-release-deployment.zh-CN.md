@@ -53,12 +53,20 @@ main 分支    -> /srv/meteortest         -> 127.0.0.1:3301 -> mt-pre.jcmeteor.c
    ```
 7. 从 `release` 创建 GitHub Release tag。
 
-## 当前基线
+## Release 基线
 
-第一个 release 基线是：
+第一个分支基线是：
 
 ```text
 v0.1.0
 ```
 
-它标记 release 分支建立时的初始生产基线。
+它标记 release 分支建立时的初始位置。
+
+当前腾讯云部署基线是：
+
+```text
+v0.1.1
+```
+
+它包含受保护的 release 分支、腾讯云 self-hosted runner 部署，以及生产/预发拆分。
