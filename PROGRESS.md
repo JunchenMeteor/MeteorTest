@@ -12,6 +12,7 @@
 - Supabase 执行手册：`docs/supabase-account-data-runbook.zh-CN.md`
 - Local Agent 运维：`docs/local-agent-operations.zh-CN.md`
 - 公网预览部署：`docs/vercel-public-preview.zh-CN.md`
+- 腾讯云 Release 部署：`docs/tencent-release-deployment.zh-CN.md`
 - 私有 Agent 闭环验证：`docs/private-agent-preview-loop.zh-CN.md`
 - 内部 ID / DTO 边界：`docs/internal-id-exposure-hardening.zh-CN.md`
 
@@ -30,6 +31,13 @@ MeteorTest 当前是早期 Beta 形态的通用自动化测试平台，已经跑
 
 公网 Web 预览地址：`https://meteortest.jcmeteor.com/`
 
+腾讯云部署已拆分为 main 预发和 release 生产：
+
+```text
+main    -> mt-pre.jcmeteor.com
+release -> meteortest.jcmeteor.com
+```
+
 公网 Web 只作为控制台入口；Local Agent 继续在私有机器或可信 runner 上主动轮询后端，不暴露到公网。
 
 ## 已完成能力
@@ -44,6 +52,7 @@ MeteorTest 当前是早期 Beta 形态的通用自动化测试平台，已经跑
 - 账号级数据：用户偏好、AI 会话历史、平台级 webhook 通知配置。
 - 安全边界：public preview 禁止公网启动本机 Agent；浏览器侧逐步使用 DTO 和公开引用，避免暴露内部 UUID。
 - Web 体验：多语言、主题、响应式基础布局、设置页、执行器页和本地预览脚本。
+- 发布体系：`release` 分支、`Protect release` ruleset、`v0.1.0` 初始发布基线、腾讯云 self-hosted runner 和 main/release 自动部署入口。
 
 ## 当前主线
 

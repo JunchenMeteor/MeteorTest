@@ -281,6 +281,14 @@ git pull origin main
 git switch -c dev/v-peq/changeName
 ```
 
+Release policy:
+
+- `main` is the integration and Tencent preview deployment branch.
+- `release` is the Tencent production deployment branch.
+- Keep feature work flowing into `main` first, then promote `main` to `release` through a PR after validation.
+- Do not cherry-pick selectively into `release` unless the user explicitly requests an emergency hotfix; sync any hotfix back to `main`.
+- Tencent deployment mapping is documented in `docs/tencent-release-deployment.md`.
+
 Branch names should use:
 
 ```text
