@@ -242,6 +242,17 @@ MeteorTest Web 需要能运行 Next.js 服务端路由的托管平台。GitHub P
 
 公网预览部署步骤统一见 `docs/vercel-public-preview.zh-CN.md`。公网 Web + 私有 Agent 的联通验证统一见 `docs/private-agent-preview-loop.zh-CN.md`。
 
+## 腾讯云 Release 部署
+
+腾讯云部署使用 `main` 作为预发分支，`release` 作为生产分支：
+
+```text
+main    -> mt-pre.jcmeteor.com
+release -> meteortest.jcmeteor.com
+```
+
+runner、分支、ruleset、环境变量和端口映射详见 `docs/tencent-release-deployment.zh-CN.md`。
+
 ## 推荐验证流程
 
 1. 执行 Supabase 迁移。
