@@ -99,6 +99,10 @@ function uniqueSuggestions(suggestions: Suggestion[]) {
   }).slice(0, 6)
 }
 
+function includesAny(text: string, keywords: string[]) {
+  return keywords.some(keyword => text.includes(keyword))
+}
+
 function relationLabel(value: NamedRelation) {
   const item = Array.isArray(value) ? value[0] : value
   return item?.name ?? item?.key ?? item?.suite_key ?? ''
@@ -237,7 +241,9 @@ function buildSuggestions(message: string, reply: string, snapshot: { projects: 
     ]
   }
 
-  if (/(最近|latest|recent|列表|list|列出|查看).*(任务|task)|任务.*(列表|list|最近|latest|recent)/.test(currentText)) {
+  const asksForTaskList = includesAny(currentText, ['最近', 'latest', 'recent', '列表', 'list', '列出', '查看'])
+    && includesAny(currentText, ['任务', 'task'])
+  if (asksForTaskList) {
     return buildTaskListSuggestions(snapshot, copy)
   }
 
