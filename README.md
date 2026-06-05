@@ -242,6 +242,17 @@ MeteorTest Web needs a host that can run Next.js server routes. GitHub Pages is 
 
 Public preview deployment steps live in `docs/vercel-public-preview.md`. Public Web plus private Agent validation lives in `docs/private-agent-preview-loop.md`.
 
+## Tencent Release Deployment
+
+Tencent deployment uses `main` for preview and `release` for production:
+
+```text
+main    -> mt-pre.jcmeteor.com
+release -> meteortest.jcmeteor.com
+```
+
+The detailed runner, branch, ruleset, environment, and port mapping lives in `docs/tencent-release-deployment.md`.
+
 ## Recommended Validation Flow
 
 1. Run Supabase migrations.

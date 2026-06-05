@@ -23,6 +23,7 @@
 | Supabase 手册 | `supabase-account-data-runbook.zh-CN.md` / `supabase-account-data-runbook.md` | Auth/RLS、账号偏好、AI 历史、display refs 的 SQL 执行与验证。 |
 | Local Agent 运维 | `local-agent-operations.zh-CN.md` / `local-agent-operations.md` | Agent 常驻、检查频率、心跳、日志、OpenClaw 巡检。 |
 | 公网预览部署 | `vercel-public-preview.zh-CN.md` / `vercel-public-preview.md` | Vercel 公网预览部署和安全检查。 |
+| 腾讯云 Release 部署 | `tencent-release-deployment.zh-CN.md` / `tencent-release-deployment.md` | 腾讯云 main/release 部署、runner、分支和端口映射。 |
 | 私有 Agent 闭环 | `private-agent-preview-loop.zh-CN.md` / `private-agent-preview-loop.md` | 私有 Agent 连接公网 Web 后端的验证流程。 |
 | 数据暴露边界 | `internal-id-exposure-hardening.zh-CN.md` / `internal-id-exposure-hardening.md` | 内部 UUID、公开引用、DTO/View Model 规则。 |
 | UI 验收 | `webui-visual-checklist.zh-CN.md` / `webui-visual-checklist.md` | WebUI 主题、布局、响应式和截图验收清单。 |
