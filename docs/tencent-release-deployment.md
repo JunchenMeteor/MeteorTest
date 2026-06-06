@@ -66,7 +66,7 @@ It marks the initial release branch creation point.
 The current Tencent deployment baseline is:
 
 ```text
-v0.1.1
+v0.1.2
 ```
 
-It includes the protected release branch, self-hosted Tencent runner deployment, and production/preview split.
+It includes the protected release branch, self-hosted Tencent runner deployment, production/preview split, and the `3200/3201` MeteorTest port alignment.
