@@ -23,6 +23,7 @@ main 分支    -> /srv/meteortest         -> 127.0.0.1:3201 -> mt-pre.jcmeteor.c
 - Workflow：
   - `.github/workflows/ci.yml`：验证 `main`、`release` 和 `dev/v-peq/**`。
   - `.github/workflows/deploy-tencent.yml`：部署 `main` 和 `release`。
+  - `.github/workflows/release-manager.yml`：编排版本准备、release PR、腾讯云部署验证和 GitHub Release 发布。
 
 ## 服务器环境变量
 
@@ -35,6 +36,10 @@ main 分支    -> /srv/meteortest         -> 127.0.0.1:3201 -> mt-pre.jcmeteor.c
 不要提交真实值。部署 workflow 会在构建和启动 Next.js 前读取这个文件。
 
 ## 发布流程
+
+正常发布使用 `GitHub -> Actions -> Release Manager -> Run workflow`，选择 `action=full`。自动化细节和中断恢复命令见 `docs/release-manager.md`。
+
+底层发布流程是：
 
 1. 功能变更先合入 `main`。
 2. `main` 自动部署到预发入口：
