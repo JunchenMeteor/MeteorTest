@@ -253,6 +253,14 @@ release -> meteortest.jcmeteor.com
 
 The detailed runner, branch, ruleset, environment, and port mapping lives in `docs/tencent-release-deployment.md`.
 
+Production publishing is automated by the GitHub Actions `Release Manager` workflow:
+
+```text
+GitHub -> Actions -> Release Manager -> Run workflow
+```
+
+Use `action=full` with a semantic version such as `0.1.3`. The workflow prepares release files, promotes `main` to `release`, waits for Tencent deployment, verifies public URLs, and creates the GitHub Release. Detailed operation and recovery steps live in `docs/release-manager.md`.
+
 ## Recommended Validation Flow
 
 1. Run Supabase migrations.

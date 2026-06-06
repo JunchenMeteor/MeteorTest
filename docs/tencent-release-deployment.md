@@ -23,6 +23,7 @@ The public Nginx entry point is port `80`. App ports are bound to `127.0.0.1` on
 - Workflow:
   - `.github/workflows/ci.yml`: validates `main`, `release`, and `dev/v-peq/**`.
   - `.github/workflows/deploy-tencent.yml`: deploys `main` and `release`.
+  - `.github/workflows/release-manager.yml`: orchestrates version preparation, release PRs, Tencent deployment verification, and GitHub Release publishing.
 
 ## Server Environment
 
@@ -35,6 +36,10 @@ Runtime environment variables live on the Tencent server:
 Do not commit real values. The deploy workflow sources this file before building and starting the Next.js app.
 
 ## Release Flow
+
+Use `GitHub -> Actions -> Release Manager -> Run workflow` with `action=full` for normal releases. The detailed automation and recovery commands live in `docs/release-manager.md`.
+
+The underlying release flow is:
 
 1. Merge feature work into `main`.
 2. Let `main` deploy to the preview endpoint:
