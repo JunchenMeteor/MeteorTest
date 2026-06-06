@@ -1,5 +1,8 @@
 name: Deploy Tencent
 
+permissions:
+  contents: read
+
 on:
   push:
     branches:
@@ -27,11 +30,11 @@ jobs:
           if [ "${GITHUB_REF_NAME}" = "release" ]; then
             echo "app_dir=/srv/meteortest-release" >> "$GITHUB_OUTPUT"
             echo "pm2_name=meteortest-release" >> "$GITHUB_OUTPUT"
-            echo "port=3300" >> "$GITHUB_OUTPUT"
+            echo "port=3200" >> "$GITHUB_OUTPUT"
           else
             echo "app_dir=/srv/meteortest" >> "$GITHUB_OUTPUT"
             echo "pm2_name=meteortest-web" >> "$GITHUB_OUTPUT"
-            echo "port=3301" >> "$GITHUB_OUTPUT"
+            echo "port=3201" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Deploy

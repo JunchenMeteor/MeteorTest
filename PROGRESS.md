@@ -52,7 +52,7 @@ release -> meteortest.jcmeteor.com
 - 账号级数据：用户偏好、AI 会话历史、平台级 webhook 通知配置。
 - 安全边界：public preview 禁止公网启动本机 Agent；浏览器侧逐步使用 DTO 和公开引用，避免暴露内部 UUID。
 - Web 体验：多语言、主题、响应式基础布局、设置页、执行器页和本地预览脚本。
-- 发布体系：`release` 分支、`Protect release` ruleset、`v0.1.0` 初始发布基线、腾讯云 self-hosted runner 和 main/release 自动部署入口。
+- 发布体系：`release` 分支、`Protect release` ruleset、`v0.1.0` 初始发布基线、`v0.1.2` 腾讯云部署基线、腾讯云 self-hosted runner 和 main/release 自动部署入口。
 
 ## 当前主线
 

@@ -3,8 +3,8 @@
 MeteorTest uses two server-side Tencent deployments:
 
 ```text
-release branch -> /srv/meteortest-release -> 127.0.0.1:3300 -> meteortest.jcmeteor.com / mt-cn.jcmeteor.com
-main branch    -> /srv/meteortest         -> 127.0.0.1:3301 -> mt-pre.jcmeteor.com / mt-pre-cn.jcmeteor.com
+release branch -> /srv/meteortest-release -> 127.0.0.1:3200 -> meteortest.jcmeteor.com / mt-cn.jcmeteor.com
+main branch    -> /srv/meteortest         -> 127.0.0.1:3201 -> mt-pre.jcmeteor.com / mt-pre-cn.jcmeteor.com
 ```
 
 The public Nginx entry point is port `80`. App ports are bound to `127.0.0.1` only and must not be opened in the Tencent security group.
@@ -49,7 +49,7 @@ Do not commit real values. The deploy workflow sources this file before building
    ```text
    /srv/meteortest-release
    meteortest-release
-   127.0.0.1:3300
+   127.0.0.1:3200
    ```
 7. Create a GitHub Release tag from `release`.
 
@@ -66,7 +66,7 @@ It marks the initial release branch creation point.
 The current Tencent deployment baseline is:
 
 ```text
-v0.1.1
+v0.1.2
 ```
 
-It includes the protected release branch, self-hosted Tencent runner deployment, and production/preview split.
+It includes the protected release branch, self-hosted Tencent runner deployment, production/preview split, and the `3200/3201` MeteorTest port alignment.
