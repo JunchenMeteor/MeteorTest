@@ -66,7 +66,7 @@ v0.1.0
 当前腾讯云部署基线是：
 
 ```text
-v0.1.1
+v0.1.2
 ```
 
-它包含受保护的 release 分支、腾讯云 self-hosted runner 部署，以及生产/预发拆分。
+它包含受保护的 release 分支、腾讯云 self-hosted runner 部署、生产/预发拆分，以及 MeteorTest `3200/3201` 端口对齐。
