@@ -3,8 +3,8 @@
 MeteorTest 在腾讯云上使用两套服务端部署：
 
 ```text
-release 分支 -> /srv/meteortest-release -> 127.0.0.1:3300 -> meteortest.jcmeteor.com / mt-cn.jcmeteor.com
-main 分支    -> /srv/meteortest         -> 127.0.0.1:3301 -> mt-pre.jcmeteor.com / mt-pre-cn.jcmeteor.com
+release 分支 -> /srv/meteortest-release -> 127.0.0.1:3200 -> meteortest.jcmeteor.com / mt-cn.jcmeteor.com
+main 分支    -> /srv/meteortest         -> 127.0.0.1:3201 -> mt-pre.jcmeteor.com / mt-pre-cn.jcmeteor.com
 ```
 
 公网 Nginx 入口只开放 `80`。应用端口只绑定 `127.0.0.1`，不要在腾讯云安全组中开放。
@@ -49,7 +49,7 @@ main 分支    -> /srv/meteortest         -> 127.0.0.1:3301 -> mt-pre.jcmeteor.c
    ```text
    /srv/meteortest-release
    meteortest-release
-   127.0.0.1:3300
+   127.0.0.1:3200
    ```
 7. 从 `release` 创建 GitHub Release tag。
 
