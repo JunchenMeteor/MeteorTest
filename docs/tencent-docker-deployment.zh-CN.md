@@ -17,7 +17,7 @@ Nginx MUST 继续监听公网 80/443 端口。容器 MUST 只发布到 `127.0.0.
 
 1. GitHub 托管 Runner 检出目标提交。
 2. CI 在 `apps/web` 安装依赖并执行 lint 和生产构建；仓库级验证继续单独覆盖 Python Agent。
-3. CI 将多阶段 Next.js standalone 镜像导出为压缩的 GitHub Actions Artifact。
+3. CI 将多阶段 Next.js standalone 镜像导出为压缩的 Docker 镜像制品。
 4. 镜像使用不可变 commit SHA 标签；分支和版本标签 MAY 作为别名，但部署 MUST 最终解析到 SHA 标签。
 5. MeteorTest 专属腾讯 Runner 下载 Artifact、将不可变镜像加载到 Docker，并只更新对应 Compose 项目。
 6. Runner 等待容器健康并验证公网域名。
@@ -46,7 +46,7 @@ Nginx MUST 继续监听公网 80/443 端口。容器 MUST 只发布到 `127.0.0.
 
 ## 配置与密钥
 
-真实 Web 凭据继续保存在 `/etc/meteortest/meteortest-web.env`，由 Compose 在容器启动时注入。GitHub Actions 保留压缩镜像七天，并通过 workflow Artifact 服务传输，不需要镜像仓库密码。Supabase service-role、AI provider、Agent 和项目执行密钥 MUST NOT 进入镜像 Artifact。
+真实 Web 凭据继续保存在 `/etc/meteortest/meteortest-web.env`，由 Compose 在容器启动时注入。GitHub 托管 Runner 使用只允许写入指定目录的 SSH 密钥，将压缩镜像直传到腾讯云制品收件箱；自托管 Runner 只负责加载和部署。该通道不需要镜像仓库密码，上传账号也不能获得交互式 Shell。Supabase service-role、AI provider、Agent 和项目执行密钥 MUST NOT 进入镜像制品。
 
 ## Compose 要求
 

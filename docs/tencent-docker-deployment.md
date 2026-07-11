@@ -17,9 +17,9 @@ Nginx MUST continue binding public ports 80/443. Containers MUST publish only to
 
 1. A GitHub-hosted runner checks out the requested commit.
 2. CI installs dependencies in `apps/web`, then runs lint and the production build. Repository-wide validation continues to cover the Python Agent separately.
-3. CI exports the multi-stage Next.js standalone image as a compressed GitHub Actions artifact.
+3. CI exports the multi-stage Next.js standalone image as a compressed Docker image artifact.
 4. The image is tagged with an immutable commit SHA. Branch and release tags MAY be aliases, but deployment MUST resolve to the SHA tag.
-5. The MeteorTest Tencent runner downloads the artifact, loads the immutable image into Docker, and updates only the matching Compose project.
+5. The MeteorTest Tencent runner loads the uploaded artifact into Docker and updates only the matching Compose project.
 6. The runner waits for container health and verifies the public domain.
 7. A failed health check MUST restore the previous image SHA.
 
@@ -46,7 +46,7 @@ Docker migration covers only `apps/web`. The private Python Local Agent MUST rem
 
 ## Configuration and secrets
 
-Real Web credentials remain in `/etc/meteortest/meteortest-web.env`. Compose injects the file at container startup. GitHub Actions stores the compressed image for seven days and transfers it through the workflow artifact service, so no container-registry password is required. Supabase service-role, AI provider, Agent, and project execution secrets MUST NOT enter the image artifact.
+Real Web credentials remain in `/etc/meteortest/meteortest-web.env`. Compose injects the file at container startup. The GitHub-hosted runner sends the compressed image directly to a Tencent inbox through an SSH key restricted to that upload command. The self-hosted runner only loads and deploys it. No container-registry password or interactive upload shell is required. Supabase service-role, AI provider, Agent, and project execution secrets MUST NOT enter the image artifact.
 
 ## Compose requirements
 
