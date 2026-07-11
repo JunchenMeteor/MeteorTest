@@ -12,7 +12,7 @@
 - Supabase 执行手册：`docs/supabase-account-data-runbook.zh-CN.md`
 - Local Agent 运维：`docs/local-agent-operations.zh-CN.md`
 - 公网预览部署：`docs/vercel-public-preview.zh-CN.md`
-- 腾讯云 Release 部署：`docs/tencent-release-deployment.zh-CN.md`
+- 腾讯云 Docker 部署：`docs/tencent-docker-deployment.zh-CN.md`
 - 私有 Agent 闭环验证：`docs/private-agent-preview-loop.zh-CN.md`
 - 内部 ID / DTO 边界：`docs/internal-id-exposure-hardening.zh-CN.md`
 

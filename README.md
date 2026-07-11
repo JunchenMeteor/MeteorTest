@@ -251,7 +251,7 @@ main    -> mt-pre.jcmeteor.com
 release -> meteortest.jcmeteor.com
 ```
 
-The detailed runner, branch, ruleset, environment, and port mapping lives in `docs/tencent-release-deployment.md`.
+The detailed Docker/TCR target architecture, runner, branch, environment, port mapping, PM2 migration, and rollback flow lives in `docs/tencent-docker-deployment.md`.
 
 Production publishing is automated by the GitHub Actions `Release Manager` workflow:
 
