@@ -1,8 +1,8 @@
 # 腾讯云 Docker 部署
 
-本文定义 MeteorTest Web Console 在现有腾讯云服务器上的目标 Docker 部署方式。私有 Python Local Agent、托管 Supabase 和宿主机 Nginx 不进入 Web 容器。
+本文定义 MeteorTest Web Console 在现有腾讯云服务器上的现行 Docker 部署方式。私有 Python Local Agent、托管 Supabase 和宿主机 Nginx 不进入 Web 容器。
 
-> 状态：目标设计。完成本文迁移验收清单之前，腾讯云当前仍使用 PM2 部署。
+> 状态：自 v0.1.3 起正式启用。预览与生产均由 Docker 运行；已停止的 PM2 定义仅用于紧急回滚。
 
 ## 环境映射
 
@@ -13,7 +13,7 @@
 
 Nginx MUST 继续监听公网 80/443 端口。容器 MUST 只发布到 `127.0.0.1`。
 
-## 目标交付流程
+## 现行交付流程
 
 1. GitHub 托管 Runner 检出目标提交。
 2. CI 在 `apps/web` 安装依赖并执行 lint 和生产构建；仓库级验证继续单独覆盖 Python Agent。
@@ -66,12 +66,11 @@ Nginx MUST 继续监听公网 80/443 端口。容器 MUST 只发布到 `127.0.0.
 每次只迁移一个环境，必须先预览后生产。
 
 1. 记录当前 Git commit、PM2 进程、Nginx 配置和公网健康结果。
-2. 构建并推送候选镜像，不改变当前运行状态。
+2. 上传已验证的源码 Artifact 并构建候选镜像，不改变当前运行状态。
 3. 在未使用的 localhost 端口启动影子容器，验证主要页面、认证、API 路由和公共预览 Agent 禁用行为。
-4. 只将当前环境的 Nginx upstream 切到影子容器并执行公网检查。
-5. 只停止 `meteortest-web` 或 `meteortest-release`。
-6. 在原 `3201` 或 `3200` 端口启动最终 Compose 项目，并将 Nginx 恢复指向该端口。
-7. 观察日志和健康状态后，再迁移下一个环境。
+4. 影子健康检查通过后，只停止 `meteortest-web` 或 `meteortest-release`。
+5. 在原 `3201` 或 `3200` 端口启动最终 Compose 项目；Nginx 始终指向这个未变化的端口。
+6. 观察日志和健康状态后，再迁移下一个环境。
 
 禁止执行 `pm2 kill`。两个环境完成观察期之前，保留 PM2 定义和源码目录。
 

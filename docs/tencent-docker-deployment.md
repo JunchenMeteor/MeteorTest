@@ -1,8 +1,8 @@
 # Tencent Docker Deployment
 
-This runbook defines the target Docker deployment for the MeteorTest Web Console on the existing Tencent server. The private Python Local Agent, hosted Supabase project, and host Nginx remain outside the Web container.
+This runbook defines the active Docker deployment for the MeteorTest Web Console on the existing Tencent server. The private Python Local Agent, hosted Supabase project, and host Nginx remain outside the Web container.
 
-> Status: target design. The active Tencent deployment still uses PM2 until the migration acceptance checklist is complete.
+> Status: active since v0.1.3. Preview and production run in Docker; the stopped PM2 definitions are retained only for emergency rollback.
 
 ## Environment mapping
 
@@ -13,7 +13,7 @@ This runbook defines the target Docker deployment for the MeteorTest Web Console
 
 Nginx MUST continue binding public ports 80/443. Containers MUST publish only to `127.0.0.1`.
 
-## Target delivery flow
+## Active delivery flow
 
 1. A GitHub-hosted runner checks out the requested commit.
 2. CI installs dependencies in `apps/web`, then runs lint and the production build. Repository-wide validation continues to cover the Python Agent separately.
@@ -66,12 +66,11 @@ Deployment metadata MAY live under `/srv/containers/meteortest/{preview,producti
 Migrate one environment at a time, preview before production.
 
 1. Record the current Git commit, PM2 process, Nginx configuration, and public health result.
-2. Build and push the candidate image without changing the active runtime.
+2. Upload the validated source artifact and build the candidate image without changing the active runtime.
 3. Start a shadow container on an unused localhost port and verify primary pages, authentication, API routes, and public-preview Agent-disabled behavior.
-4. Switch only the relevant Nginx upstream to the shadow container and run public checks.
-5. Stop only `meteortest-web` or `meteortest-release`.
-6. Start the final Compose project on the existing `3201` or `3200` port and return Nginx to that port.
-7. Observe logs and health before migrating the next environment.
+4. Stop only `meteortest-web` or `meteortest-release` after the shadow health check succeeds.
+5. Start the final Compose project on the existing `3201` or `3200` port; Nginx continues targeting that unchanged port.
+6. Observe logs and health before migrating the next environment.
 
 Do not run `pm2 kill`. Keep PM2 definitions and source directories until both environments pass the observation window.
 
