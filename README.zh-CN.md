@@ -251,7 +251,7 @@ main    -> mt-pre.jcmeteor.com
 release -> meteortest.jcmeteor.com
 ```
 
-Docker/TCR 目标架构、runner、分支、环境变量、端口映射、PM2 迁移和回滚流程详见 `docs/tencent-docker-deployment.zh-CN.md`。
+Docker/GHCR 架构、runner、分支、环境变量、端口映射、PM2 迁移和回滚流程详见 `docs/tencent-docker-deployment.zh-CN.md`。
 
 生产发布通过 GitHub Actions 的 `Release Manager` workflow 自动化：
 
