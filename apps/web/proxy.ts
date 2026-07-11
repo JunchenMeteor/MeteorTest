@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@supabase/ssr'
 
-const publicPaths = new Set(['/login', '/api/auth/logout', '/favicon.ico'])
+const publicPaths = new Set(['/login', '/api/auth/logout', '/api/health', '/favicon.ico'])
 const authOptionalPaths = new Set(['/api/agent/status'])
 
 async function getSessionResponse(request: NextRequest) {

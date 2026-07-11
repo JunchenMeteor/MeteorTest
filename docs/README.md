@@ -23,7 +23,7 @@ This is the single entry point for MeteorTest documentation. Start here for new 
 | Supabase runbook | `supabase-account-data-runbook.md` / `supabase-account-data-runbook.zh-CN.md` | Auth/RLS, preferences, AI history, display refs SQL execution and verification. |
 | Local Agent operations | `local-agent-operations.md` / `local-agent-operations.zh-CN.md` | Agent daemon, check interval, heartbeat, logs, OpenClaw checks. |
 | Public preview deployment | `vercel-public-preview.md` / `vercel-public-preview.zh-CN.md` | Vercel public preview deployment and safety checks. |
-| Tencent Docker deployment | `tencent-docker-deployment.md` / `tencent-docker-deployment.zh-CN.md` | Docker/TCR target architecture, main/release mapping, PM2 migration, and rollback. |
+| Tencent Docker deployment | `tencent-docker-deployment.md` / `tencent-docker-deployment.zh-CN.md` | Docker image artifact architecture, main/release mapping, PM2 migration, and rollback. |
 | Release automation | `release-manager.md` | GitHub Actions release workflow, release PR automation, and recovery commands. |
 | Private Agent loop | `private-agent-preview-loop.md` / `private-agent-preview-loop.zh-CN.md` | Validation flow for public Web plus private Agent execution. |
 | Data exposure boundary | `internal-id-exposure-hardening.md` / `internal-id-exposure-hardening.zh-CN.md` | Internal UUIDs, public refs, DTO/View Model rules. |

@@ -17,9 +17,9 @@ Nginx MUST continue binding public ports 80/443. Containers MUST publish only to
 
 1. A GitHub-hosted runner checks out the requested commit.
 2. CI installs dependencies in `apps/web`, then runs lint and the production build. Repository-wide validation continues to cover the Python Agent separately.
-3. CI builds a multi-stage Next.js standalone image and pushes it to Tencent Container Registry (TCR).
+3. CI exports the multi-stage Next.js standalone image as a compressed Docker image artifact.
 4. The image is tagged with an immutable commit SHA. Branch and release tags MAY be aliases, but deployment MUST resolve to the SHA tag.
-5. The MeteorTest Tencent runner pulls the image and updates only the matching Compose project.
+5. The MeteorTest Tencent runner loads the uploaded artifact into Docker and updates only the matching Compose project.
 6. The runner waits for container health and verifies the public domain.
 7. A failed health check MUST restore the previous image SHA.
 
@@ -27,7 +27,7 @@ The server MUST NOT copy source, install npm dependencies, or build Next.js afte
 
 ## Image contract
 
-- Proposed image: `<tcr-registry>/<namespace>/meteortest-web`.
+- Image tag: `meteortest-web:<commit-sha>`.
 - Build context: `apps/web` unless implementation validation identifies a repository-root dependency.
 - Next.js MUST use `output: 'standalone'`.
 - The runtime stage MUST contain only the standalone server, static assets, and required public files.
@@ -46,11 +46,7 @@ Docker migration covers only `apps/web`. The private Python Local Agent MUST rem
 
 ## Configuration and secrets
 
-Real Web credentials remain in `/etc/meteortest/meteortest-web.env`. Compose injects the file at container startup. GitHub stores only TCR access and non-secret deployment metadata.
-
-- variables: TCR registry, namespace, image repository;
-- secrets: TCR username/token or equivalent short-lived credential;
-- Supabase service-role, AI provider, Agent, and project execution secrets MUST NOT enter the image.
+Real Web credentials remain in `/etc/meteortest/meteortest-web.env`. Compose injects the file at container startup. The GitHub-hosted runner sends the compressed image directly to a Tencent inbox through an SSH key restricted to that upload command. The self-hosted runner only loads and deploys it. No container-registry password or interactive upload shell is required. Supabase service-role, AI provider, Agent, and project execution secrets MUST NOT enter the image artifact.
 
 ## Compose requirements
 
@@ -83,8 +79,8 @@ Do not run `pm2 kill`. Keep PM2 definitions and source directories until both en
 
 1. resolve the immutable image SHA;
 2. record the currently running SHA;
-3. authenticate to TCR and pull the image;
-4. update the matching Compose project;
+3. download and load the image artifact;
+4. update the matching Compose project from the local immutable image;
 5. wait for container health;
 6. verify the localhost port and public domain;
 7. retain the previous SHA for rollback.
@@ -96,7 +92,7 @@ For a normal rollback, deploy the previous image SHA and repeat health checks. D
 ## Acceptance checklist
 
 - CI builds the same commit that is tagged and deployed.
-- No application or Agent secret exists in image history, build logs, or TCR metadata.
+- No application or Agent secret exists in image history, build logs, or artifact metadata.
 - Preview and production deploy and roll back independently.
 - Containers bind only to localhost.
 - Nginx passes `nginx -t` before reload.
