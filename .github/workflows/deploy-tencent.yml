@@ -94,7 +94,12 @@ jobs:
           fi
 
       - name: Build image from artifact
-        run: docker build --tag "meteortest-web:${GITHUB_SHA}" --file source/apps/web/Dockerfile source/apps/web
+        run: >-
+          docker build
+          --build-arg NPM_REGISTRY=https://registry.npmmirror.com
+          --tag "meteortest-web:${GITHUB_SHA}"
+          --file source/apps/web/Dockerfile
+          source/apps/web
 
       - name: Deploy
         env:
