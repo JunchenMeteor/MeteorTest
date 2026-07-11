@@ -15,7 +15,7 @@ const config = {
   versionFiles: ['apps/web/package.json', 'apps/web/package-lock.json'],
   releaseDoc: (version) => `docs/releases/v${version}.md`,
   releaseUrls: ['https://meteortest.jcmeteor.com/', 'https://mt-pre.jcmeteor.com/'],
-  deployWorkflow: 'Deploy Tencent',
+  deployWorkflow: 'Deploy Tencent Docker',
 }
 
 const args = process.argv.slice(2)
