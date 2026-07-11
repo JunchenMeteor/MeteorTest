@@ -17,9 +17,9 @@ Nginx MUST continue binding public ports 80/443. Containers MUST publish only to
 
 1. A GitHub-hosted runner checks out the requested commit.
 2. CI installs dependencies in `apps/web`, then runs lint and the production build. Repository-wide validation continues to cover the Python Agent separately.
-3. CI builds a multi-stage Next.js standalone image and pushes it to GitHub Container Registry (GHCR).
+3. CI exports the multi-stage Next.js standalone image as a compressed GitHub Actions artifact.
 4. The image is tagged with an immutable commit SHA. Branch and release tags MAY be aliases, but deployment MUST resolve to the SHA tag.
-5. The MeteorTest Tencent runner pulls the image and updates only the matching Compose project.
+5. The MeteorTest Tencent runner downloads the artifact, loads the immutable image into Docker, and updates only the matching Compose project.
 6. The runner waits for container health and verifies the public domain.
 7. A failed health check MUST restore the previous image SHA.
 
@@ -27,7 +27,7 @@ The server MUST NOT copy source, install npm dependencies, or build Next.js afte
 
 ## Image contract
 
-- Image: `ghcr.io/junchenmeteor/meteortest-web:<commit-sha>`.
+- Image tag: `meteortest-web:<commit-sha>`.
 - Build context: `apps/web` unless implementation validation identifies a repository-root dependency.
 - Next.js MUST use `output: 'standalone'`.
 - The runtime stage MUST contain only the standalone server, static assets, and required public files.
@@ -46,7 +46,7 @@ Docker migration covers only `apps/web`. The private Python Local Agent MUST rem
 
 ## Configuration and secrets
 
-Real Web credentials remain in `/etc/meteortest/meteortest-web.env`. Compose injects the file at container startup. GitHub Actions uses the repository-scoped `GITHUB_TOKEN` for GHCR access, so no long-lived registry password is required. Supabase service-role, AI provider, Agent, and project execution secrets MUST NOT enter the image.
+Real Web credentials remain in `/etc/meteortest/meteortest-web.env`. Compose injects the file at container startup. GitHub Actions stores the compressed image for seven days and transfers it through the workflow artifact service, so no container-registry password is required. Supabase service-role, AI provider, Agent, and project execution secrets MUST NOT enter the image artifact.
 
 ## Compose requirements
 
@@ -79,8 +79,8 @@ Do not run `pm2 kill`. Keep PM2 definitions and source directories until both en
 
 1. resolve the immutable image SHA;
 2. record the currently running SHA;
-3. authenticate to GHCR with the workflow token and pull the image;
-4. update the matching Compose project;
+3. download and load the image artifact;
+4. update the matching Compose project from the local immutable image;
 5. wait for container health;
 6. verify the localhost port and public domain;
 7. retain the previous SHA for rollback.
@@ -92,7 +92,7 @@ For a normal rollback, deploy the previous image SHA and repeat health checks. D
 ## Acceptance checklist
 
 - CI builds the same commit that is tagged and deployed.
-- No application or Agent secret exists in image history, build logs, or GHCR metadata.
+- No application or Agent secret exists in image history, build logs, or artifact metadata.
 - Preview and production deploy and roll back independently.
 - Containers bind only to localhost.
 - Nginx passes `nginx -t` before reload.
