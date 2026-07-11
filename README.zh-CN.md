@@ -251,7 +251,15 @@ main    -> mt-pre.jcmeteor.com
 release -> meteortest.jcmeteor.com
 ```
 
-runner、分支、ruleset、环境变量和端口映射详见 `docs/tencent-release-deployment.zh-CN.md`。
+Docker/Actions Artifact 架构、runner、分支、环境变量、端口映射、PM2 迁移和回滚流程详见 `docs/tencent-docker-deployment.zh-CN.md`。
+
+生产发布通过 GitHub Actions 的 `Release Manager` workflow 自动化：
+
+```text
+GitHub -> Actions -> Release Manager -> Run workflow
+```
+
+选择 `action=full`，输入类似 `0.1.3` 的语义化版本号。workflow 会准备 release 文件、将 `main` 提升到 `release`、等待腾讯云部署、验证公网 URL，并创建 GitHub Release。详细操作和中断恢复步骤见 `docs/release-manager.md`。
 
 ## 推荐验证流程
 
