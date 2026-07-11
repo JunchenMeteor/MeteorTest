@@ -1,8 +1,9 @@
 FROM node:24-bookworm-slim AS dependencies
 
 WORKDIR /app
+ARG NPM_REGISTRY=https://registry.npmjs.org
 COPY package.json package-lock.json ./
-RUN npm ci
+RUN npm ci --registry="${NPM_REGISTRY}"
 
 FROM dependencies AS builder
 
