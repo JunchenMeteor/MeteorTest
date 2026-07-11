@@ -17,9 +17,9 @@ Nginx MUST continue binding public ports 80/443. Containers MUST publish only to
 
 1. A GitHub-hosted runner checks out the requested commit.
 2. CI installs dependencies in `apps/web`, then runs lint and the production build. Repository-wide validation continues to cover the Python Agent separately.
-3. CI exports the multi-stage Next.js standalone image as a compressed Docker image artifact.
+3. CI validates the Docker build on pull requests and uploads compact source as a GitHub Actions artifact after merge.
 4. The image is tagged with an immutable commit SHA. Branch and release tags MAY be aliases, but deployment MUST resolve to the SHA tag.
-5. The MeteorTest Tencent runner loads the uploaded artifact into Docker and updates only the matching Compose project.
+5. The MeteorTest Tencent runner builds from the artifact with the server-side Docker layer cache and updates only the matching Compose project.
 6. The runner waits for container health and verifies the public domain.
 7. A failed health check MUST restore the previous image SHA.
 
@@ -46,7 +46,7 @@ Docker migration covers only `apps/web`. The private Python Local Agent MUST rem
 
 ## Configuration and secrets
 
-Real Web credentials remain in `/etc/meteortest/meteortest-web.env`. Compose injects the file at container startup. The GitHub-hosted runner sends the compressed image directly to a Tencent inbox through an SSH key restricted to that upload command. The self-hosted runner only loads and deploys it. No container-registry password or interactive upload shell is required. Supabase service-role, AI provider, Agent, and project execution secrets MUST NOT enter the image artifact.
+Real Web credentials remain in `/etc/meteortest/meteortest-web.env`. Compose injects the file at container startup. The self-hosted runner downloads the validated source artifact, builds with the server-side Docker layer cache, and deploys it. It does not pull the Git repository and requires no container-registry password. Supabase service-role, AI provider, Agent, and project execution secrets MUST NOT enter the source artifact or image.
 
 ## Compose requirements
 
@@ -79,7 +79,7 @@ Do not run `pm2 kill`. Keep PM2 definitions and source directories until both en
 
 1. resolve the immutable image SHA;
 2. record the currently running SHA;
-3. download and load the image artifact;
+3. download the source artifact and build the image with Docker layer cache;
 4. update the matching Compose project from the local immutable image;
 5. wait for container health;
 6. verify the localhost port and public domain;
