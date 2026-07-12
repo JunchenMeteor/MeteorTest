@@ -341,6 +341,8 @@ Use fresh GitHub data when checking issue or PR state. Prefer `gh api --cache 0s
 
 Do not add `Co-Authored-By` or AI attribution to commit messages.
 
+Git authors and committers must use an approved human identity (`Connor`, `ConnorQi`, or `JunchenMeteor`). Bot, automation, AI-tool, and agent identities such as `github-actions[bot]` are forbidden. Automated commits must use `JunchenMeteor <15767428+JunchenMeteor@users.noreply.github.com>`.
+
 ## Security And Secrets
 
 Never commit or print real values for:
